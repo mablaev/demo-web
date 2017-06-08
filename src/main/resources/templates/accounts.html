@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Account management</title>
+    </head>
+ 	<link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css"/>
+ 	<script type="text/javascript" src="DataTables/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="DataTables/datatables.min.js" ></script>
+	<script type="text/javascript">
+		 $(document).ready(function() {
+		        $('#accounts').DataTable( {
+		            "processing": true,
+		            "serverSide": true,
+		            "ajax": "/accounts-data",
+		            "aoColumnDefs": [            
+		                {
+		                  "aTargets": [ 0 ], // Column to target
+		                  "mRender": function ( data, type, full ) {
+		                    return '<a href="#" onClick="askAmount(\''+data+'\')">' + data + '</a>';
+		                  }
+		                }
+		              ],
+		            "columns": [
+		                { "data": "email" },
+		                { "data": "balance" },
+		                { "data": "registrationDate" }
+		              
+		            ]
+		        } );
+		    } );
+		 
+		 function askAmount(userEmail) {
+			    var amount = prompt("Top up for "+userEmail, "0");
+			    if (amount != null) {
+
+			    	$.ajax({
+			    	    url : '/topup',
+			    	    data : { amount: amount, userEmail : userEmail},
+			    	    type : 'GET',
+			    	    contentType : 'application/json',
+			    	    xhr: function() {
+			    	        return window.XMLHttpRequest == null || new window.XMLHttpRequest().addEventListener == null 
+			    	            ? new window.ActiveXObject("Microsoft.XMLHTTP")
+			    	            : $.ajaxSettings.xhr();
+			    	    }
+			    	});      
+			    }
+			};
+	</script>
+    
+    <body>
+    	<H2> Account balances management </H2>
+    	<br/>
+        
+        <a th:href="@{/topup-log}">Top up log</a>
+        <br/>
+	    <table id="accounts" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Balance</th>
+                <th>Registration Date</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+   				<th>Email</th>
+                <th>Balance</th>
+                <th>Registration Date</th>
+            </tr>
+        </tfoot>
+    </table>
+    </body>
+</html>

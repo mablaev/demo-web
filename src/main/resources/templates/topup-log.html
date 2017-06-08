@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Topup history</title>
+    </head>
+ 	<link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css"/>
+ 	<script type="text/javascript" src="DataTables/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="DataTables/datatables.min.js" ></script>
+	<script type="text/javascript">
+		 $(document).ready(function() {
+		        $('#topups-log').DataTable( {
+		            "processing": true,
+		            "serverSide": true,
+		            "ajax": "/topup-log-data",
+
+		            "columns": [
+		                { "data": "adminEmail" },
+		                { "data": "userEmail" },
+		                { "data": "topupDate" },
+		                { "data": "amount" }
+		            ]
+		        } );
+		    } );
+	</script>
+    
+    <body>
+    	<H2>Topup history</H2>
+    	<br/>
+         <br/>
+	    <table id="topups-log" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Administrator</th>
+                <th>User</th>
+                <th>Topupdate</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Administrator</th>
+                <th>User</th>
+                <th>Topupdate</th>
+                <th>Amount</th>
+            </tr>
+        </tfoot>
+    </table>
+    </body>
+</html>

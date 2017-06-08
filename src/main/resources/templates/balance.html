@@ -1,0 +1,24 @@
+	<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Current balance page</title>
+    </head>
+    <body>
+	    <table align="center"  style="margin: 0px auto; vertical-align: middle;">
+	    
+			<div th:if="${error}"> 
+			   <div th:text="${error}"></div>
+			</div>
+			
+			<div th:unless="${error}"> 
+   				<div th:text=" 'Your current balanace is ' + ${balance}" />
+			</div>
+			
+			<div>
+				<a th:href="@{/login?logout}">Log out</a>
+			</div>
+		   
+	    </table>
+    </body>
+</html>
